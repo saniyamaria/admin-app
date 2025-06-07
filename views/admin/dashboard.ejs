@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Dashboard</title>
+</head>
+<body>
+  <h1>Admin Dashboard</h1>
+
+  <form action="/admin/search" method="POST">
+    <input type="text" name="query" placeholder="Search users..." />
+    <button type="submit">Search</button>
+  </form>
+
+  <h2>Create New User</h2>
+  <form action="/admin/create" method="POST">
+    <input type="text" name="username" placeholder="Username" required />
+    <input type="email" name="email" placeholder="Email" required />
+    <input type="password" name="password" placeholder="Password" required />
+    <button type="submit">Create</button>
+  </form>
+
+  <h2>User List</h2>
+  <ul>
+    <% users.forEach(user => { %>
+      <li>
+        <form action="/admin/edit/<%= user._id %>" method="POST">
+          <input type="text" name="username" value="<%= user.username %>" required />
+          <input type="email" name="email" value="<%= user.email %>" required />
+          <button type="submit">Edit</button>
+        </form>
+        <form action="/admin/delete/<%= user._id %>" method="POST" style="display:inline;">
+          <button type="submit">Delete</button>
+        </form>
+      </li>
+    <% }) %>
+  </ul>
+</body>
+</html>
