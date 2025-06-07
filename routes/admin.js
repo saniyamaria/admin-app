@@ -10,4 +10,6 @@ router.post('/edit/:id', adminController.ensureAdmin, adminController.editUser);
 router.post('/delete/:id', adminController.ensureAdmin, adminController.deleteUser);
 router.post('/create', adminController.ensureAdmin, adminController.createUser);
 
+router.get('/logout', adminController.logout);
+
 module.exports = router;

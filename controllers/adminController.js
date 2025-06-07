@@ -48,3 +48,14 @@ exports.createUser = async (req, res) => {
   await new User({ username, email, password: hash }).save();
   res.redirect('/admin/dashboard');
 };
+
+exports.logout = (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      console.log(err);
+      return res.redirect('/admin/dashboard');
+    }
+    res.clearCookie('connect.sid');
+    res.redirect('/admin/login');
+  });
+};

@@ -40,3 +40,14 @@ exports.updateProfile = async (req, res) => {
   await User.findByIdAndUpdate(req.session.userId, { username, email });
   res.redirect('/user/profile');
 };
+
+exports.logout = (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      console.log(err);
+      return res.redirect('/user/home');
+    }
+    res.clearCookie('connect.sid');
+    res.redirect('/user/login');
+  });
+};

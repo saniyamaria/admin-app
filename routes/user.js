@@ -12,4 +12,6 @@ router.get('/home', userController.ensureAuth, userController.getHome);
 router.get('/profile', userController.ensureAuth, userController.getProfile);
 router.post('/profile', userController.ensureAuth, userController.updateProfile);
 
+router.get('/logout', userController.logout);
+
 module.exports = router;
