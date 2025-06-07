@@ -1,42 +1,69 @@
 <!DOCTYPE html>
-<html>
-
-<head>
+<html lang="en">
+  <head>
+     <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="/css/style.css" />
     <title>Admin Dashboard</title>
-</head>
+  </head>
+  <body>
+    <div class="admin-wrapper">
 
-<body>
-    <h1>Admin Dashboard</h1>
-    <a href="/admin/logout">Logout</a>
+      <!-- Top bar -->
+      <header class="top-bar">
+        <div class="top-bar-left">
+          <h1>Admin Dashboard</h1>
+        </div>
+      </header>
 
-    <form action="/admin/search" method="POST">
-        <input type="text" name="query" placeholder="Search users..." />
-        <button type="submit">Search</button>
-    </form>
+      <!-- Admin info + logout -->
+      <div class="admin-meta-bar">
+        <div class="admin-meta">
+          <span>Welcome, <strong><%= admin.username || 'Admin' %></strong></span>
+          <a href="/admin/logout" class="logout-button">Logout</a>
+        </div>
+      </div>
 
-    <h2>Create New User</h2>
-    <form action="/admin/create" method="POST">
-        <input type="text" name="username" placeholder="Username" required />
-        <input type="email" name="email" placeholder="Email" required />
-        <input type="password" name="password" placeholder="Password" required />
-        <button type="submit">Create</button>
-    </form>
+      <!-- Main content -->
+      <main class="admin-main">
+        <div class="search-bar">
+          <form method="GET" action="/admin/dashboard">
+            <input
+              type="search"
+              name="search"
+              class="search-input"
+              placeholder="Search users by name..."
+              value="<%= searchTerm || '' %>"
+            />
+          </form>
+        </div>
 
-    <h2>User List</h2>
-    <ul>
-        <% users.forEach(user=> { %>
-            <li>
-                <form action="/admin/edit/<%= user._id %>" method="POST">
-                    <input type="text" name="username" value="<%= user.username %>" required />
-                    <input type="email" name="email" value="<%= user.email %>" required />
-                    <button type="submit">Edit</button>
-                </form>
-                <form action="/admin/delete/<%= user._id %>" method="POST" style="display:inline;">
-                    <button type="submit">Delete</button>
-                </form>
-            </li>
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Admin</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% users.forEach(function(user) { %>
+              <tr>
+                <td><%= user.username || 'N/A' %></td>
+                <td><%= user.email %></td>
+                <td><%= user.isAdmin ? 'Yes' : 'No' %></td>
+                <td>
+                  <a href="/admin/users/edit/<%= user._id %>" class="action-link edit">Edit</a>
+                  <a href="/admin/users/delete/<%= user._id %>" class="action-link delete" onclick="return confirm('Are you sure?')">Delete</a>
+                </td>
+              </tr>
             <% }) %>
-    </ul>
-</body>
-
+          </tbody>
+        </table>
+      </main>
+    </div>
+  </body>
 </html>

@@ -4,14 +4,28 @@ const bcrypt = require('bcryptjs');
 exports.getLogin = (req, res) => res.render('admin/login');
 
 exports.postLogin = async (req, res) => {
-  const admin = await User.findOne({ email: req.body.email, isAdmin: true });
-  if (admin && await bcrypt.compare(req.body.password, admin.password)) {
-    req.session.adminId = admin._id;
-    res.redirect('/admin/dashboard');
-  } else {
-    res.redirect('/admin/login');
+  const { email, password } = req.body;
+  const admin = await User.findOne({ email });
+
+  if (!admin || !admin.isAdmin) {
+    return res.render('admin/login', { error: 'Invalid credentials or not an admin' });
   }
+
+  const isMatch = await bcrypt.compare(password, admin.password);
+  if (!isMatch) {
+    return res.render('admin/login', { error: 'Invalid credentials' });
+  }
+
+  // ✅ Store admin session
+  req.session.admin = {
+    _id: admin._id,
+    username: admin.username, // or admin.name
+    email: admin.email
+  };
+
+  res.redirect('/admin/dashboard');
 };
+
 
 exports.ensureAdmin = (req, res, next) => {
   if (!req.session.adminId) return res.redirect('/admin/login');
@@ -19,9 +33,24 @@ exports.ensureAdmin = (req, res, next) => {
 };
 
 exports.getDashboard = async (req, res) => {
-  const users = await User.find({ isAdmin: false });
-  res.render('admin/dashboard', { users });
+  try {
+    const query = req.query.search || '';
+    const users = await User.find({
+      name: { $regex: query, $options: 'i' }
+    });
+
+    res.render('admin/dashboard', {
+      users,
+      searchTerm: query,
+      admin: req.session.admin // ✅ this is what your EJS expects
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
 };
+
+
 
 exports.searchUser = async (req, res) => {
   const users = await User.find({

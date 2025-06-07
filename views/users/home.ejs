@@ -1,12 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Home</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>User Home</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <h1>Welcome, <%= user.username %></h1>
-  <p>Email: <%= user.email %></p>
-  <a href="/user/profile">Edit Profile</a>
-  <a href="/user/logout">Logout</a>
+  <nav class="navbar">
+    <div class="container">
+      <a href="/" class="brand">MyApp</a>
+      <ul class="nav-links">
+        <li><a href="/user/home">Home</a></li>
+        <li><a href="/user/profile">Profile</a></li>
+        <li><a href="/user/logout" class="logout">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="main-content container">
+    <h1>Welcome, <%= user.username %>!</h1>
+
+    <section class="dashboard-cards">
+      <div class="card">
+        <h2>Profile</h2>
+        <p>View and edit your personal information.</p>
+        <a href="/user/profile" class="btn">Go to Profile</a>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© 2025 MyApp. All rights reserved.</p>
+  </footer>
 </body>
 </html>

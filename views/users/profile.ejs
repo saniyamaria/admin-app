@@ -2,13 +2,30 @@
 <html>
 <head>
   <title>Edit Profile</title>
+    <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
-  <h1>Edit Profile</h1>
-  <form action="/user/profile" method="POST">
-    <input type="text" name="username" value="<%= user.username %>" required /><br>
-    <input type="email" name="email" value="<%= user.email %>" required /><br>
-    <button type="submit">Update</button>
-  </form>
+  <div class="container">
+    <h1>Your Profile</h1>
+
+    <div class="profile-info">
+      <p><strong>Name:</strong> <%= user.username %></p>
+      <p><strong>Email:</strong> <%= user.email %></p>
+    </div>
+
+    <h2>Edit Profile</h2>
+    <form class="edit-profile-form" action="/user/profile" method="POST">
+      <input type="text" name="name" value="<%= user.username %>" required />
+      <input type="email" name="email" value="<%= user.email %>" required />
+      <button type="submit">Update Profile</button>
+    </form>
+
+    <a href="/user/logout">Logout</a>
+  </div>
 </body>
+
 </html>
