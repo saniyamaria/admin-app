@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Edit Profile</title>
-    <link
-    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
-  <div class="container">
+  <div class="profile-wrapper">
     <h1>Your Profile</h1>
 
     <div class="profile-info">
@@ -21,11 +20,10 @@
     <form class="edit-profile-form" action="/user/profile" method="POST">
       <input type="text" name="name" value="<%= user.username %>" required />
       <input type="email" name="email" value="<%= user.email %>" required />
-      <button type="submit">Update Profile</button>
+      <button type="submit" class="primary-btn">Update Profile</button>
     </form>
 
-    <a href="/user/logout">Logout</a>
+    <a href="/user/logout" class="logout-link">Logout</a>
   </div>
 </body>
-
 </html>
