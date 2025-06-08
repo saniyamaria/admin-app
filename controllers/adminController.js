@@ -102,6 +102,9 @@ exports.createUser = async (req, res) => {
   await new User({ username, email, password: hash }).save();
   res.redirect('/admin/dashboard');
 };
+exports.getCreateUser = (req, res) => {
+  res.render('admin/create', { error: null });
+};
 
 /**
  * GET /admin/logout
@@ -116,3 +119,4 @@ exports.logout = (req, res) => {
     res.redirect('/admin/login');
   });
 };
+

@@ -8,8 +8,8 @@ router.get('/dashboard', adminController.ensureAdmin, adminController.getDashboa
 router.post('/search', adminController.ensureAdmin, adminController.searchUser);
 router.post('/edit/:id', adminController.ensureAdmin, adminController.editUser);
 router.post('/delete/:id', adminController.ensureAdmin, adminController.deleteUser);
-router.post('/create', adminController.ensureAdmin, adminController.createUser);
-
+router.get('/users/create', adminController.getCreateUser);
+router.post('/users/create', adminController.createUser);
 router.get('/logout', adminController.logout);
 
 module.exports = router;
