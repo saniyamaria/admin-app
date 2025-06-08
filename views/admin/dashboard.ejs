@@ -58,7 +58,7 @@
                   <th>Avatar</th>
                   <th>Name</th>
                   <th>Email</th>
-                  <th>Bio</th>
+                   <th>Admin</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -70,7 +70,7 @@
                     </td>
                     <td><%= user.username || 'N/A' %></td>
                     <td><%= user.email %></td>
-                    <td class="bio-cell"><%= user.bio || '-' %></td>
+                     <td><%= user.isAdmin ? 'Yes' : 'No' %></td>
                     <td class="action-buttons">
                       <a href="/admin/users/edit/<%= user._id %>" class="btn edit-btn">Edit</a>
                       <a href="/admin/users/delete/<%= user._id %>" class="btn delete-btn" onclick="return confirm('Are you sure?')">Delete</a>

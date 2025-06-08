@@ -617,3 +617,21 @@ body {
   font-weight: 600;
   text-align: center;
 }
+.admin-login-btn {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: white;
+    border: 2px solid white;
+    padding: 0.45rem 1rem;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    background: transparent;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .admin-login-btn:hover {
+    background-color: white;
+    color: #2d3748; /* Dark text on hover */
+  }

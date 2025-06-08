@@ -44,21 +44,20 @@ exports.getDashboard = async (req, res) => {
   try {
     const query = req.query.search || '';
     const users = await User.find({
-      name: { $regex: query, $options: 'i' }
+      username: { $regex: query, $options: 'i' },
     });
-
     res.render('admin/dashboard', {
       users,
       searchTerm: query,
       admin: req.session.admin,
       error: null
     });
-
   } catch (err) {
     console.error(err);
     res.status(500).send('Server error');
   }
 };
+
 
 /**
  * POST /admin/search (if used separately)
@@ -85,17 +84,25 @@ exports.editUser = async (req, res) => {
   res.redirect('/admin/dashboard');
 };
 
-/**
- * GET /admin/users/delete/:id
- */
+exports.getEditUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.redirect('/admin/dashboard');
+    }
+    res.render('admin/edit', { user });
+  } catch (err) {
+    console.error(err);
+    res.redirect('/admin/dashboard');
+  }
+};
+
+
 exports.deleteUser = async (req, res) => {
   await User.findByIdAndDelete(req.params.id);
   res.redirect('/admin/dashboard');
 };
 
-/**
- * POST /admin/users/create
- */
 exports.createUser = async (req, res) => {
   const { username, email, password } = req.body;
   const hash = await bcrypt.hash(password, 10);
