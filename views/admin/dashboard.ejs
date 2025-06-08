@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-     <link
-    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap"
-    rel="stylesheet"
-  />
-  <link rel="stylesheet" href="/css/style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Dashboard</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/style.css" />
   </head>
   <body>
     <div class="admin-wrapper">
-
       <!-- Top bar -->
       <header class="top-bar">
         <div class="top-bar-left">
@@ -18,7 +19,7 @@
         </div>
       </header>
 
-      <!-- Admin info + logout -->
+      <!-- Admin info -->
       <div class="admin-meta-bar">
         <div class="admin-meta">
           <span>Welcome, <strong><%= admin.username || 'Admin' %></strong></span>
@@ -28,41 +29,58 @@
 
       <!-- Main content -->
       <main class="admin-main">
-        <div class="search-bar">
-          <form method="GET" action="/admin/dashboard">
+        <% if (typeof error !== 'undefined' && error) { %>
+  <div class="error-banner"><%= error %></div>
+<% } %>
+
+
+        <div class="top-controls">
+          <form method="GET" action="/admin/dashboard" class="search-form">
             <input
               type="search"
               name="search"
               class="search-input"
-              placeholder="Search users by name..."
+              placeholder="Search users by name or email..."
               value="<%= searchTerm || '' %>"
             />
+            <button type="submit" class="search-button">Search</button>
           </form>
+          <a href="/admin/users/create" class="btn primary-btn">+ Create New User</a>
         </div>
 
-        <table class="admin-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Admin</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% users.forEach(function(user) { %>
-              <tr>
-                <td><%= user.username || 'N/A' %></td>
-                <td><%= user.email %></td>
-                <td><%= user.isAdmin ? 'Yes' : 'No' %></td>
-                <td>
-                  <a href="/admin/users/edit/<%= user._id %>" class="action-link edit">Edit</a>
-                  <a href="/admin/users/delete/<%= user._id %>" class="action-link delete" onclick="return confirm('Are you sure?')">Delete</a>
-                </td>
-              </tr>
-            <% }) %>
-          </tbody>
-        </table>
+        <div class="table-container">
+          <% if (users.length === 0) { %>
+            <p class="empty-state">No users found.</p>
+          <% } else { %>
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Avatar</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Bio</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% users.forEach(function(user) { %>
+                  <tr>
+                    <td>
+                      <img src="<%= user.avatarUrl || '/images/default-avatar.png' %>" alt="Avatar" class="avatar" />
+                    </td>
+                    <td><%= user.username || 'N/A' %></td>
+                    <td><%= user.email %></td>
+                    <td class="bio-cell"><%= user.bio || '-' %></td>
+                    <td class="action-buttons">
+                      <a href="/admin/users/edit/<%= user._id %>" class="btn edit-btn">Edit</a>
+                      <a href="/admin/users/delete/<%= user._id %>" class="btn delete-btn" onclick="return confirm('Are you sure?')">Delete</a>
+                    </td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          <% } %>
+        </div>
       </main>
     </div>
   </body>
