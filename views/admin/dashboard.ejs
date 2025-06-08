@@ -1,42 +1,87 @@
 <!DOCTYPE html>
-<html>
-
-<head>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Dashboard</title>
-</head>
+    <!-- Use Poppins font (match your style.css) -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <div class="admin-wrapper">
+      <!-- Top bar -->
+      <header class="top-bar">
+        <div class="top-bar-left">
+          <h1>Admin Dashboard</h1>
+        </div>
+      </header>
 
-<body>
-    <h1>Admin Dashboard</h1>
-    <a href="/admin/logout">Logout</a>
+      <!-- Admin info -->
+      <div class="admin-meta-bar">
+        <div class="admin-meta">
+          <span>Welcome, <strong><%= admin.username || 'Admin' %></strong></span>
+          <a href="/admin/logout" class="logout-button">Logout</a>
+        </div>
+      </div>
 
-    <form action="/admin/search" method="POST">
-        <input type="text" name="query" placeholder="Search users..." />
-        <button type="submit">Search</button>
-    </form>
+      <!-- Main content -->
+      <main class="admin-main">
+        <% if (typeof error !== 'undefined' && error) { %>
+          <div class="error-banner"><%= error %></div>
+        <% } %>
 
-    <h2>Create New User</h2>
-    <form action="/admin/create" method="POST">
-        <input type="text" name="username" placeholder="Username" required />
-        <input type="email" name="email" placeholder="Email" required />
-        <input type="password" name="password" placeholder="Password" required />
-        <button type="submit">Create</button>
-    </form>
+        <div class="top-controls">
+          <form method="GET" action="/admin/dashboard" class="search-form">
+            <input
+              type="search"
+              name="search"
+              class="search-input"
+              placeholder="Search users by name or email..."
+              value="<%= searchTerm || '' %>"
+            />
+            <button type="submit" class="search-button">Search</button>
+          </form>
+          <a href="/admin/users/create" class="btn primary-btn">+ Create New User</a>
+        </div>
 
-    <h2>User List</h2>
-    <ul>
-        <% users.forEach(user=> { %>
-            <li>
-                <form action="/admin/edit/<%= user._id %>" method="POST">
-                    <input type="text" name="username" value="<%= user.username %>" required />
-                    <input type="email" name="email" value="<%= user.email %>" required />
-                    <button type="submit">Edit</button>
-                </form>
-                <form action="/admin/delete/<%= user._id %>" method="POST" style="display:inline;">
-                    <button type="submit">Delete</button>
-                </form>
-            </li>
-            <% }) %>
-    </ul>
-</body>
-
+        <div class="table-container">
+          <% if (users.length === 0) { %>
+            <p class="empty-state">No users found.</p>
+          <% } else { %>
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Avatar</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                   <th>Admin</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% users.forEach(function(user) { %>
+                  <tr>
+                    <td>
+                      <img src="<%= user.avatarUrl || '/images/default-avatar.jpg' %>" alt="Avatar" class="avatar" />
+                    </td>
+                    <td><%= user.username || 'N/A' %></td>
+                    <td><%= user.email %></td>
+                     <td><%= user.isAdmin ? 'Yes' : 'No' %></td>
+                    <td class="action-buttons">
+                      <a href="/admin/users/edit/<%= user._id %>" class="btn edit-btn">Edit</a>
+                      <a href="/admin/users/delete/<%= user._id %>" class="btn delete-btn" onclick="return confirm('Are you sure?')">Delete</a>
+                    </td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          <% } %>
+        </div>
+      </main>
+    </div>
+  </body>
 </html>
