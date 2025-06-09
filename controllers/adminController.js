@@ -80,9 +80,17 @@ exports.searchUser = async (req, res) => {
  */
 exports.editUser = async (req, res) => {
   const { username, email } = req.body;
-  await User.findByIdAndUpdate(req.params.id, { username, email });
+  const isAdmin = req.body.isAdmin === 'on'; // checkbox returns 'on' if checked
+
+  await User.findByIdAndUpdate(req.params.id, {
+    username,
+    email,
+    isAdmin
+  });
+
   res.redirect('/admin/dashboard');
 };
+
 
 exports.getEditUser = async (req, res) => {
   try {
@@ -104,11 +112,24 @@ exports.deleteUser = async (req, res) => {
 };
 
 exports.createUser = async (req, res) => {
-  const { username, email, password } = req.body;
-  const hash = await bcrypt.hash(password, 10);
-  await new User({ username, email, password: hash }).save();
-  res.redirect('/admin/dashboard');
+  try {
+    const { username, email, password } = req.body;
+    const isAdmin = req.body.isAdmin === 'on'; // checkbox returns 'on' if checked
+
+    const existing = await User.findOne({ email });
+    if (existing) {
+      return res.render('admin/create', { error: 'Email already in use' });
+    }
+
+    const hash = await bcrypt.hash(password, 10);
+    await new User({ username, email, password: hash, isAdmin }).save();
+    res.redirect('/admin/dashboard');
+  } catch (err) {
+    console.error(err);
+    res.render('admin/create', { error: 'Error creating user' });
+  }
 };
+
 exports.getCreateUser = (req, res) => {
   res.render('admin/create', { error: null });
 };

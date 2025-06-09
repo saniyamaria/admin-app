@@ -635,3 +635,37 @@ body {
     background-color: white;
     color: #2d3748; /* Dark text on hover */
   }
+  .home-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  margin-top: 15px;
+  background-color: #4299e1;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.home-btn:hover {
+  background-color: #3182ce;
+}
+input[type="checkbox"] {
+  accent-color: #007bff;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  margin-right: 8px;
+}
+label input[type="checkbox"] + span {
+  font-weight: 500;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+}
+.login-form label {
+  display: flex;
+  align-items: center;
+  margin-top: 12px;
+  margin-bottom: 16px;
+}
