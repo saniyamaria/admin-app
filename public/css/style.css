@@ -635,3 +635,18 @@ body {
     background-color: white;
     color: #2d3748; /* Dark text on hover */
   }
+  .home-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  margin-top: 15px;
+  background-color: #4299e1;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.home-btn:hover {
+  background-color: #3182ce;
+}
