@@ -27,7 +27,7 @@ This is a web-based User Management System built with **Node.js**, **Express**, 
    ```bash
    git clone https://github.com/your-username/user-management-system.git
    cd user-management-system
-````
+   ````
 
 2. **Install dependencies**
 
@@ -58,12 +58,13 @@ This is a web-based User Management System built with **Node.js**, **Express**, 
 ## Screenshots
 
 * User Signup and Login
-
+   ![image](https://github.com/user-attachments/assets/e10d965c-94ec-455a-b133-5588a0c0d0ca)
 
 * Admin Dashboard
-
+   ![image](https://github.com/user-attachments/assets/ae974b35-fcd1-4f90-8468-4e2cb7509de5)
 
 * User Profile Page
+  ![image](https://github.com/user-attachments/assets/830d6906-f4d6-43e9-a488-7186b105a08f)
 
 
 
