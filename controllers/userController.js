@@ -9,16 +9,18 @@ exports.postSignup = async (req, res) => {
   res.redirect('/user/login');
 };
 
-exports.getLogin = (req, res) => res.render('users/login');
+exports.getLogin = (req, res) => res.render('users/login', { error: null });
 exports.postLogin = async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
+
   if (user && await bcrypt.compare(req.body.password, user.password)) {
     req.session.userId = user._id;
-    res.redirect('/user/home');
-  } else {
-    res.redirect('/user/login');
+    return res.redirect('/user/home');
   }
+
+  res.render('users/login', { error: 'Incorrect email or password' });
 };
+
 
 exports.ensureAuth = (req, res, next) => {
   if (!req.session.userId) return res.redirect('/user/login');

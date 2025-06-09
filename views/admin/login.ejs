@@ -16,7 +16,7 @@
     <div class="login-box">
       <h1>Admin Login</h1>
       <% if (typeof error !== 'undefined' && error) { %>
-  <div class="login-error"><%= error %></div>
+  <div class="error-popup"><%= error %></div>
 <% } %>
 
       <form action="/admin/login" method="POST" class="login-form">
@@ -26,5 +26,8 @@
       </form>
     </div>
   </div>
+  <footer class="footer">
+    <p>© 2025 MyApp. All rights reserved.</p>
+  </footer>
 </body>
 </html>
