@@ -1,31 +1,31 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 
-exports.getLogin = (req, res) => {
-  res.render('admin/login', { error: null }); // ✅ important fix
-};
-
-exports.postLogin = async (req, res) => {
+exports.postLogin = (req, res) => {
   const { email, password } = req.body;
-  const admin = await User.findOne({ email });
 
-  if (!admin || !admin.isAdmin) {
-    return res.render('admin/login', { error: 'Invalid credentials or not an admin' });
-  }
+  console.log('Email:', email);
+  console.log('Password:', password);
 
-  const isMatch = await bcrypt.compare(password, admin.password);
-  if (!isMatch) {
-    return res.render('admin/login', { error: 'Invalid credentials' });
+  const hardcodedEmail = 'admin@gmail.com';
+  const hardcodedPassword = 'admin123';
+
+  if (email !== hardcodedEmail || password !== hardcodedPassword) {
+    return res.render('admin/login', { error: 'Invalid admin credentials' });
   }
 
   req.session.admin = {
-    _id: admin._id,
-    username: admin.username, // or admin.name
-    email: admin.email
+    email: hardcodedEmail,
+    username: 'Admin'
   };
 
-  res.redirect('/admin/dashboard');
+  return res.redirect('/admin/dashboard');
 };
+exports.getLogin = (req, res) => {
+  res.render('admin/login', { error: null });
+};
+
+
 
 /**
  * Middleware to protect admin routes

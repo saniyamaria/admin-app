@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
@@ -14,6 +16,7 @@ mongoose.connect(process.env.MONGO_URI);
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(session({
   secret: process.env.SESSION_SECRET,
@@ -29,6 +32,9 @@ console.log('Connected to MongoDB');
 // Routes
 app.use('/user', require('./routes/user'));
 app.use('/admin', require('./routes/admin'));
-app.listen(process.env.PORT, () => {
-  console.log(`Server started on http://localhost:${process.env.PORT}`);
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server started on http://localhost:${PORT}`);
 });
+
